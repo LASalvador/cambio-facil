@@ -1,28 +1,73 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <h1 class="header">Cambio Fácil</h1>
+    <div class="main">
+      <label for="dolar"> US$ </label>
+      <input 
+        id="dolar" 
+        type="number" 
+        min="0"
+        v-model="dolar"
+      >
+      <button
+        @click="converter"
+      >
+          Converter
+      </button>
+    </div>
+    <span class="result">Vale R$ {{real}}</span>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import api from './services/api'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+  },
+  data () {
+    return {
+      real: 0,
+      dolar: 0,
+      dolarBase: 5.08
+    }
+  },
+  methods: {
+    converter() {
+      api.converter('USD', 'BRL')
+        .then(response => {
+          this.dolarBase = response.data.result
+          this.real = this.dolar * this.dolarBase
+        })
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'to to to to to to'
+    'from from from from from from';
+  grid-gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.header {
+   grid-area: header;
+   color:darkorchid;
+}
+.main {
+   grid-area: to;
+}
+.main button {
+  background-color:darkorchid;
+  color: white;
+}
+.result {
+  grid-area: from;
+  font-size:2em;
+  color:darkorchid;
 }
 </style>
