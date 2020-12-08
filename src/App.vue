@@ -29,16 +29,17 @@ export default {
     return {
       real: 0,
       dolar: 0,
-      dolarBase: 5.08
+      dolarBase: 5.09
     }
   },
   methods: {
     converter() {
-      api.converter('USD', 'BRL')
-        .then(response => {
-          this.dolarBase = response.data.result
-          this.real = this.dolar * this.dolarBase
-        })
+      this.real = this.dolar * this.dolarBase
+      // api.converter('USD', 'BRL')
+      //   .then(response => {
+      //     this.dolarBase = response.data.result
+      //     this.real = this.dolar * this.dolarBase
+      //   })
     }
   }
 }
